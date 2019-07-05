@@ -1,2 +1,4 @@
 # AI_CNN_project
-Porject for the Artificial Intelligence Course FRI Ljubljana 2019
+Snapchat and Instagram filter classification using CNN.
+Project for AI exam with Ivan Bratko, Faculty of Computer Science, Ljubljana 2019
+
