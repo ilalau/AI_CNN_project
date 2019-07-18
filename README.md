@@ -10,3 +10,4 @@ Moreover you can find the files with all the images, splitted in training and te
 
 
 
+Also a confusion matrix is built, in order to perform the accuracy of the model.
