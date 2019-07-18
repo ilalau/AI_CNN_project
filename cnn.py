@@ -17,6 +17,7 @@ from keras.layers import Convolution2D
 from keras.layers import MaxPooling2D
 from keras.layers import Flatten
 from keras.layers import Dense
+import numpy as np
 
 # Initialising the CNN
 classifier = Sequential()
@@ -73,5 +74,52 @@ classifier.fit_generator(training_set,
 i shoul check if ican use another dataset, but maybe to see if i can build an easy user interface, 
 or maybe show if it can recognize new data, test also the accuracy  and put  a graph showing the learning rate 
 
-https://medium.com/nybles/create-your-first-image-recognition-classifier-using-cnn-keras-and-tensorflow-backend-6eaab98d14dd
 """
+
+import numpy as np 
+from keras.preprocessing import image
+test_image = image.load_img('dog3.jpg',target_size=(64,64))
+test_image= image.img_to_array(test_image)
+test_image = np.expand_dims(test_image, axis=0)
+
+result = classifier.predict(test_image)
+training_set.class_indices
+if result[0][0] >=0.5:
+    prediction = 'dog'
+else:
+    prediction='cat'
+print(prediction)
+        
+
+"""Confusion Matrix"""
+from sklearn.metrics import confusion_matrix
+y_true = [1, 1, 1, 1, 0, 0, 0, 0]
+y_pred = [1, 1, 1, 1, 0, 1, 1, 0]
+confusion_matrix(y_true, y_pred)
+
+from sklearn.metrics import classification_report
+print(classification_report(y_true,y_pred))
+
+
+
+#Here I show how to create a confusion matrix, with only 8 images tested just to test the code.
+#You should increase the number
+
+import pandas as pd
+y_actu = pd.Series([1, 1, 1, 1, 0, 0, 0, 0], name='Actual')
+y_pred = pd.Series([1, 1, 1, 1, 0, 1, 1, 0], name='Predicted')
+df_confusion = pd.crosstab(y_actu, y_pred, rownames=['Actual'], colnames=['Predicted'], margins=True)
+
+import matplotlib.pyplot as plt
+def plot_confusion_matrix(df_confusion, title='Confusion matrix', cmap=plt.cm.gray_r):
+    plt.matshow(df_confusion, cmap=cmap) # imshow
+    #plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(df_confusion.columns))
+    plt.xticks(tick_marks, df_confusion.columns, rotation=45)
+    plt.yticks(tick_marks, df_confusion.index)
+    #plt.tight_layout()
+    plt.ylabel(df_confusion.index.name)
+    plt.xlabel(df_confusion.columns.name)
+
+plot_confusion_matrix(df_confusion)
